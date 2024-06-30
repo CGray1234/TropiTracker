@@ -1,0 +1,22 @@
+@font-face {
+    font-family: "Bebas Neue";
+    src: url("./BEBASNEUE-REGULAR.TTF");
+}
+
+* {
+    font-family: "Bebas Neue"
+}
+
+div#active-header {
+    text-align: center;
+    font-size: 75px;
+    background-color: darkred;
+    color: white;
+}
+
+div#storm-count {
+    text-align: center;
+    font-size: 25px;
+    background-color: black;
+    color: white;
+}
