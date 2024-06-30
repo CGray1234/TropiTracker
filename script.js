@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hurricaneList.appendChild(hurricaneListItem);
 
                 const rssUrl = `https://www.nhc.noaa.gov/nhc_${hurricane.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}`;
-                fetch(rssUrl)
+                fetch(proxyUrl + rssUrl)
                     .then(response => response.text())
                     .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
                     .then(data => {
