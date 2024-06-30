@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const apiUrl = 'https://www.nhc.noaa.gov/CurrentStorms.json';
 
-    fetch(apiUrl, { mode: "no-cors"})
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             const activeHurricanes = data.activeStorms.filter(storm => storm.stormType === 'HU');
