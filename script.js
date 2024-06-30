@@ -10,16 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             const activeHurricanes = data.activeStorms.filter(storm => storm.classification === 'HU');
             const activeTropicalStorms = data.activeStorms.filter(storm => storm.classification === 'TS');
+            const activeTropicalDeps = data.activeStorms.filter(storm => storm.classification === 'TD');
 
-            if (activeHurricanes.length === 1 && activeTropicalStorms.length === 1) {
-                stormCount.textContent = `Found ${activeHurricanes.length} hurricane and ${activeTropicalStorms.length} tropical storm.`;
-            } else if (activeHurricanes.length === 1) {
-                stormCount.textContent = `Found ${activeHurricanes.length} hurricane and ${activeTropicalStorms.length} tropical storms.`;
-            } else if (activeTropicalStorms.length === 1) {
-                stormCount.textContent = `Found ${activeHurricanes.length} hurricanes and ${activeTropicalStorms.length} tropical storm.`;
-            } else {
-                stormCount.textContent = `Found ${activeHurricanes.length} hurricanes and ${activeTropicalStorms.length} tropical storms.`;
-            }
+            stormCount.textContent = `Found ${activeHurricanes.length} hurricanes, ${activeTropicalStorms.length} tropical storms, and ${activeTropicalDeps.length} tropical depressions.`;
 
             activeHurricanes.forEach(hurricane => {
                 const hurricaneListItem = document.createElement('div');
