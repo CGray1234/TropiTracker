@@ -33,6 +33,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     .then(response => response.text())
                     .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
                     .then(data => {
+                        const winds = data.getElementsByTagNameNS('*', 'wind')[0].textContent.replace(/\D/g, '');
+                        let category = ""
+                        if (winds >= 157) {
+                            category = '5 (major)';
+                        } else if (winds >= 130) {
+                            category = '4 (major)';
+                        } else if (winds >= 111) {
+                            category = '3 (major)';
+                        } else if (winds >= 96) {
+                            category = '2';
+                        } else if (winds >= 74) {
+                            category = '1';
+                        } else {
+                            category = 'Unknown';
+                        }
+                        hurricaneListItem.innerHTML = `Hurricane ${hurricane.name}: Category ${category}`;
+
                         const lastUpdate = data.getElementsByTagNameNS('*', "datetime")[0].textContent;
                         const updateDiv = document.createElement('div');
                         updateDiv.className = "hurricane-update";
