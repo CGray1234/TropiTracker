@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hurricaneList = document.getElementById('hurricanes');
     const depList = document.getElementById('depressions');
 
-    const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}`;
+    const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
     const proxyUrl = 'https://corsproxy.io/?';
 
     let hideHurricanes = true;
@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hurricaneButton = document.getElementById('hurricane-label');
     hurricaneButton.onclick = toggleHurricanes;
+
+    const stormButton = document.getElementById('storm-label');
+    stormButton.onclick = toggleStorms;
 
     const depButton = document.getElementById('depression-label');
     depButton.onclick = toggleDeps;
@@ -23,6 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             document.getElementById('hurricanes').style.display = "none";
             hideHurricanes = true;
+        }
+    }
+
+    function toggleStorms() {
+        if (hideTS == true) {
+            document.getElementById('storms').style.display = "block";
+            hideTS = false;
+        } else {
+            document.getElementById('storms').style.display = "none";
+            hideTS = true;
         }
     }
 
@@ -45,6 +58,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
             stormCount.textContent = `Found ${activeHurricanes.length} hurricanes, ${activeTropicalStorms.length} tropical storms, and ${activeTropicalDeps.length} tropical depressions.`;
 
+            if (activeHurricanes.length == 0) {
+                hurricaneButton.style.display = "none";
+            } else {
+                hurricaneButton.style.display = "block";
+            }
+
+            if (activeTropicalStorms.length == 0) {
+                stormButton.style.display = "none";
+            } else {
+                hurricaneButton.style.display = "block";
+            }
+
+            if (activeTropicalDeps.length == 0) {
+                depButton.style.display = "none";
+            } else {
+                depButton.style.display = "block";
+            }
+
             activeHurricanes.forEach(hurricane => {
                 const hurricaneListItem = document.createElement('div');
 
@@ -58,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 hurricaneListItem.innerHTML = `Hurricane ${hurricane.name}`;
                 hurricaneList.appendChild(hurricaneListItem);
 
-                const rssUrl = `https://www.nhc.noaa.gov/nhc_${hurricane.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}`;
+                const rssUrl = `https://www.nhc.noaa.gov/nhc_${hurricane.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
                 fetch(proxyUrl + rssUrl)
                     .then(response => response.text())
                     .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
@@ -121,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 depListItem.innerHTML = `Tropical Depression ${depression.name}`;
                 depList.appendChild(depListItem);
 
-                const rssUrl = `https://www.nhc.noaa.gov/nhc_${depression.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}`;
+                const rssUrl = `https://www.nhc.noaa.gov/nhc_${depression.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
                 fetch(proxyUrl + rssUrl)
                     .then(response => response.text())
                     .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
