@@ -1,14 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     const stormCount = document.getElementById('storm-count');
     const hurricaneList = document.getElementById('hurricanes');
+    const depList = document.getElementById('depressions');
 
     const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}`;
     const proxyUrl = 'https://corsproxy.io/?';
 
     let hideHurricanes = true;
+    let hideTS = true;
+    let hideTD = true;
 
     const hurricaneButton = document.getElementById('hurricane-label');
     hurricaneButton.onclick = toggleHurricanes;
+
+    const depButton = document.getElementById('depression-label');
+    depButton.onclick = toggleDeps;
 
     function toggleHurricanes() {
         if (hideHurricanes == true) {
@@ -17,6 +23,16 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             document.getElementById('hurricanes').style.display = "none";
             hideHurricanes = true;
+        }
+    }
+
+    function toggleDeps() {
+        if (hideTD == true) {
+            document.getElementById('depressions').style.display = "block";
+            hideTD = false;
+        } else {
+            document.getElementById('depressions').style.display = "none";
+            hideTD = true;
         }
     }
 
@@ -90,13 +106,56 @@ document.addEventListener('DOMContentLoaded', () => {
                         errorDiv.innerHTML = 'Error loading RSS feed';
                         hurricaneListItem.appendChild(errorDiv);
                     });
+            });
 
+            activeTropicalDeps.forEach(depression => {
+                const depListItem = document.createElement('div');
 
+                const dropdownRight = document.createElement('span');
+                dropdownRight.className = "material-symbols-outlined";
+                dropdownRight.innerHTML = " arrow_right ";
+                depListItem.appendChild(dropdownRight);
+
+                depListItem.id = depression.binNumber;
+                depListItem.className = "dep-list-item";
+                depListItem.innerHTML = `Tropical Depression ${depression.name}`;
+                depList.appendChild(depListItem);
+
+                const rssUrl = `https://www.nhc.noaa.gov/nhc_${depression.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}`;
+                fetch(proxyUrl + rssUrl)
+                    .then(response => response.text())
+                    .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
+                    .then(data => {
+                        const lastUpdate = data.getElementsByTagNameNS('*', "datetime")[0].textContent;
+                        const updateDiv = document.createElement('div');
+                        updateDiv.className = "depression-update";
+                        updateDiv.innerHTML = `Last updated: ${lastUpdate}`;
+                        depListItem.appendChild(updateDiv);
+
+                        const headline = data.getElementsByTagNameNS('*', 'headline')[0].textContent;
+                        const headlineDiv = document.createElement('div');
+                        headlineDiv.className = "depression-headline";
+                        headlineDiv.innerHTML = `${headline}`;
+                        depListItem.appendChild(headlineDiv);
+
+                        const coneBinNumber = depression.binNumber.length === 3 ? depression.binNumber.slice(0, 2) + '0' + depression.binNumber.slice(2) : depression.binNumber;
+                        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${coneBinNumber}/${depression.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
+                        const coneGraphic = document.createElement('img');
+                        coneGraphic.className = "cone-graphic";
+                        coneGraphic.src = coneGraphicUrl;
+                        depListItem.appendChild(coneGraphic);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching RSS feed:', error);
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = "error";
+                        errorDiv.innerHTML = 'Error loading RSS feed';
+                        depListItem.appendChild(errorDiv);
+                    });
             });
         })
         .catch(error => {
-            console.error('Error fetching hurricane data:', error);
+            console.error('Error fetching data:', error);
             stormCount.textContent = 'Error loading data';
         });
 });
-

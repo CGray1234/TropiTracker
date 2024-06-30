@@ -74,6 +74,51 @@ button#hurricane-label:active {
     text-align: center;
 }
 
+
+
+button#depression-label {
+    margin-top: 20px;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    background-color: gray;
+    border: none;
+    width: 100%;
+}
+
+button#depression-label:hover {
+    margin-top: 20px;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    background-color: rgb(70, 70, 70);
+    border: none;
+    width: 100%;
+}
+
+.dep-list-item {
+    font-size: 50px;
+    background-color: darkred;
+    color: white;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.depression-headline {
+    background-color: rgb(75, 75, 75);
+    font-size: 40px;
+    text-align: center;
+}
+
+.depression-update {
+    background-color: black;
+    font-size: 20px;
+    text-align: center;
+}
+
 .cone-graphic {
     display: block;
     margin-left: auto;
