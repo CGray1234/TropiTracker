@@ -28,15 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 hurricaneListItem.innerHTML = `Hurricane ${hurricane.name}`;
                 hurricaneList.appendChild(hurricaneListItem);
 
-                const rssUrl = `https://www.nhc.noaa.gov/nhc_${hurricane.binNumber.toLowerCase()}.xml`;
-                fetch(proxyUrl + rssUrl)
+                const rssUrl = `https://www.nhc.noaa.gov/nhc_${hurricane.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}`;
+                fetch(rssUrl)
                     .then(response => response.text())
                     .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
                     .then(data => {
-                        const lastUpdate = data.getElementsByTagNameNS('*', "datetime")[0].textContent
+                        const lastUpdate = data.getElementsByTagNameNS('*', "datetime")[0].textContent;
                         const updateDiv = document.createElement('div');
                         updateDiv.className = "hurricane-update";
-                        updateDiv.innerHTML = `Last updated: ${lastUpdate}`
+                        updateDiv.innerHTML = `Last updated: ${lastUpdate}`;
                         hurricaneListItem.appendChild(updateDiv);
 
                         const headline = data.getElementsByTagNameNS('*', 'headline')[0].textContent;
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const coneBinNumber = hurricane.binNumber.length === 3 ? hurricane.binNumber.slice(0, 2) + '0' + hurricane.binNumber.slice(2) : hurricane.binNumber;
                         const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${coneBinNumber}/${hurricane.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
                         const coneGraphic = document.createElement('img');
-                        coneGraphic.className = "cone-graphic"
+                        coneGraphic.className = "cone-graphic";
                         coneGraphic.src = coneGraphicUrl;
                         hurricaneListItem.appendChild(coneGraphic);
                     })
