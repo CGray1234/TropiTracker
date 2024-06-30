@@ -21,12 +21,34 @@ div#storm-count {
     color: white;
 }
 
-div#hurricane-label {
+button#hurricane-label {
     margin-top: 20px;
     font-size: 50px;
     text-align: center;
     color: white;
     background-color: gray;
+    border: none;
+    width: 100%;
+}
+
+button#hurricane-label:hover {
+    margin-top: 20px;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    background-color: rgb(70, 70, 70);
+    border: none;
+    width: 100%;
+}
+
+button#hurricane-label:active {
+    margin-top: 20px;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    background-color: rgb(95, 95, 95);
+    border: none;
+    width: 100%;
 }
 
 .hurricane-list-item {

@@ -5,6 +5,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}`;
     const proxyUrl = 'https://corsproxy.io/?';
 
+    let hideHurricanes = true;
+
+    const hurricaneButton = document.getElementById('hurricane-label');
+    hurricaneButton.onclick = toggleHurricanes;
+
+    function toggleHurricanes() {
+        if (hideHurricanes == true) {
+            document.getElementById('hurricanes').style.display = "block";
+            hideHurricanes = false;
+        } else {
+            document.getElementById('hurricanes').style.display = "none";
+            hideHurricanes = true;
+        }
+    }
+
     fetch(proxyUrl + apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -16,6 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             activeHurricanes.forEach(hurricane => {
                 const hurricaneListItem = document.createElement('div');
+
+                const dropdownRight = document.createElement('span');
+                dropdownRight.className = "material-symbols-outlined";
+                dropdownRight.innerHTML = " arrow_right ";
+                hurricaneListItem.appendChild(dropdownRight);
+
                 hurricaneListItem.id = hurricane.binNumber;
                 hurricaneListItem.className = "hurricane-list-item";
                 hurricaneListItem.innerHTML = `Hurricane ${hurricane.name}`;
@@ -69,6 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         errorDiv.innerHTML = 'Error loading RSS feed';
                         hurricaneListItem.appendChild(errorDiv);
                     });
+
+
             });
         })
         .catch(error => {
@@ -76,3 +99,4 @@ document.addEventListener('DOMContentLoaded', () => {
             stormCount.textContent = 'Error loading data';
         });
 });
+
