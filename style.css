@@ -53,5 +53,7 @@ div#hurricane-label {
 }
 
 .cone-graphic {
-    align-self: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
