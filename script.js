@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const stormCount = document.getElementById('storm-count');
     const hurricaneList = document.getElementById('hurricanes');
 
-    const apiUrl = 'https://www.nhc.noaa.gov/CurrentStorms.json';
+    const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}`;
     const proxyUrl = 'https://corsproxy.io/?';
 
     fetch(proxyUrl + apiUrl)
