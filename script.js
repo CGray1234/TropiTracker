@@ -56,7 +56,28 @@ document.addEventListener('DOMContentLoaded', () => {
             const activeTropicalStorms = data.activeStorms.filter(storm => storm.classification === 'TS');
             const activeTropicalDeps = data.activeStorms.filter(storm => storm.classification === 'TD');
 
-            stormCount.textContent = `Found ${activeHurricanes.length} hurricanes, ${activeTropicalStorms.length} tropical storms, and ${activeTropicalDeps.length} tropical depressions.`;
+            let hurricaneProperGrammar = ""
+            if (activeHurricanes.length == 1) {
+                hurricaneProperGrammar = "Hurricane";
+            } else {
+                hurricaneProperGrammar = "Hurricanes";
+            }
+
+            let stormProperGrammar = ""
+            if (activeTropicalStorms.length == 1) {
+                stormProperGrammar = "Tropical Storm";
+            } else {
+                stormProperGrammar = "Tropical Storms";
+            }
+
+            let depProperGrammar = ""
+            if (activeTropicalDeps.length == 1) {
+                depProperGrammar = "Tropical Depression";
+            } else {
+                depProperGrammar = "Tropical Depressions";
+            }
+
+            stormCount.textContent = `Found ${activeHurricanes.length} ${hurricaneProperGrammar}, ${activeTropicalStorms.length} ${stormProperGrammar}, and ${activeTropicalDeps.length} ${depProperGrammar}.`;
 
             if (activeHurricanes.length == 0) {
                 hurricaneButton.style.display = "none";
