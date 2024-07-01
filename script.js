@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const stormCount = document.getElementById('storm-count');
+
     const hurricaneList = document.getElementById('hurricanes');
     const depList = document.getElementById('depressions');
+    const stormList = document.getElementById('storms');
 
     const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
     const proxyUrl = 'https://corsproxy.io/?';
@@ -88,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (activeTropicalStorms.length == 0) {
                 stormButton.style.display = "none";
             } else {
-                hurricaneButton.style.display = "block";
+                stormButton.style.display = "block";
             }
 
             if (activeTropicalDeps.length == 0) {
@@ -302,6 +304,114 @@ document.addEventListener('DOMContentLoaded', () => {
                         depListItem.appendChild(satImage);
                         depListItem.appendChild(irImage);
                         depListItem.appendChild(coneImage);
+                        
+                        function changeToSatellite() {
+                            satImage.style.display = "block";
+                            irImage.style.display = "none";
+                            coneImage.style.display = "none";
+                        }
+
+                        function changeToIR() {
+                            satImage.style.display = "none";
+                            irImage.style.display = "block";
+                            coneImage.style.display = "none";
+                        }
+
+                        function changeToCone() {
+                            satImage.style.display = "none";
+                            irImage.style.display = "none";
+                            coneImage.style.display = "block";
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching RSS feed:', error);
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = "error";
+                        errorDiv.innerHTML = 'Error loading RSS feed';
+                        depListItem.appendChild(errorDiv);
+                    });
+                });
+
+            activeTropicalStorms.forEach(storm => {
+                const stormListItem = document.createElement('div');
+
+                const dropdownRight = document.createElement('span');
+                dropdownRight.className = "material-symbols-outlined";
+                dropdownRight.innerHTML = " arrow_right ";
+                stormListItem.appendChild(dropdownRight);
+
+                stormListItem.id = storm.binNumber;
+                stormListItem.className = "dep-list-item";
+                stormListItem.innerHTML = `Tropical Storm ${storm.name}`;
+                stormList.appendChild(stormListItem);
+
+                const rssUrl = `https://www.nhc.noaa.gov/nhc_${storm.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
+                fetch(proxyUrl + rssUrl)
+                    .then(response => response.text())
+                    .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
+                    .then(data => {
+                        const lastUpdate = data.getElementsByTagNameNS('*', "datetime")[0].textContent;
+                        const updateDiv = document.createElement('div');
+                        updateDiv.className = "storm-update";
+                        updateDiv.innerHTML = `Last updated: ${lastUpdate}`;
+                        stormListItem.appendChild(updateDiv);
+
+                        const headline = data.getElementsByTagNameNS('*', 'headline')[0].textContent;
+                        const headlineDiv = document.createElement('div');
+                        headlineDiv.className = "storm-headline";
+                        headlineDiv.innerHTML = `${headline}`;
+                        stormListItem.appendChild(headlineDiv);
+
+                        const fourDigitBinNumber = storm.binNumber.length === 3 ? storm.binNumber.slice(0, 2) + '0' + storm.binNumber.slice(2) : storm.binNumber;
+                        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitBinNumber}/${storm.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
+                        const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${storm.id.toUpperCase()}/GEOCOLOR/${storm.id.toUpperCase()}-GEOCOLOR-1000x1000.gif`
+                        const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${storm.id.toUpperCase()}/13/${storm.id.toUpperCase()}-13-1000x1000.gif`
+
+                        const coneImage = document.createElement('img');
+                        coneImage.className = "dep-image";
+                        coneImage.src = coneGraphicUrl;
+                        stormListItem.appendChild(coneImage);
+                        coneImage.style.display = "block";
+
+                        const satImage = document.createElement('img');
+                        satImage.className = "dep-image";
+                        satImage.src = satelliteUrl;
+                        stormListItem.appendChild(satImage);
+                        satImage.style.display = "none";
+
+                        const irImage = document.createElement('img');
+                        irImage.className = "dep-image";
+                        irImage.src = IrSatUrl;
+                        stormListItem.appendChild(satImage);
+                        irImage.style.display = "none";
+
+                        const imgButtonDiv = document.createElement('div');
+                        imgButtonDiv.className = "img-button-div";
+                        stormListItem.appendChild(imgButtonDiv);
+
+                        const coneButton = document.createElement('button');
+                        coneButton.className = "img-button";
+                        coneButton.innerHTML = "Cone Tracks";
+
+                        const satelliteButton = document.createElement('button');
+                        satelliteButton.className = "img-button";
+                        satelliteButton.innerHTML = "Sattelite";
+
+                        const IrSatButton = document.createElement('button');
+                        IrSatButton.className = "img-button";
+                        IrSatButton.innerHTML = "Infrared Sattelite";
+
+                        coneButton.onclick = changeToCone;
+                        satelliteButton.onclick = changeToSatellite;
+                        IrSatButton.onclick = changeToIR;
+
+                        imgButtonDiv.appendChild(coneButton);
+                        imgButtonDiv.appendChild(satelliteButton);
+                        imgButtonDiv.appendChild(IrSatButton);
+
+                        stormListItem.appendChild(satImage);
+                        stormListItem.appendChild(irImage);
+                        stormListItem.appendChild(coneImage);
                         
                         function changeToSatellite() {
                             satImage.style.display = "block";
