@@ -144,12 +144,52 @@ document.addEventListener('DOMContentLoaded', () => {
                         headlineDiv.innerHTML = `${headline}`;
                         hurricaneListItem.appendChild(headlineDiv);
 
-                        const coneBinNumber = hurricane.binNumber.length === 3 ? hurricane.binNumber.slice(0, 2) + '0' + hurricane.binNumber.slice(2) : hurricane.binNumber;
-                        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${coneBinNumber}/${hurricane.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
-                        const coneGraphic = document.createElement('img');
-                        coneGraphic.className = "cone-graphic";
-                        coneGraphic.src = coneGraphicUrl;
-                        hurricaneListItem.appendChild(coneGraphic);
+                        const imgButtonDiv = document.createElement('div');
+                        imgButtonDiv.className = "img-button-div";
+                        hurricaneListItem.appendChild(imgButtonDiv);
+
+                        const fourDigitBinNumber = hurricane.binNumber.length === 3 ? hurricane.binNumber.slice(0, 2) + '0' + hurricane.binNumber.slice(2) : hurricane.binNumber;
+                        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitBinNumber}/${hurricane.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
+                        const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${hurricane.id.toUpperCase()}/GEOCOLOR/${hurricane.id.toUpperCase()}-GEOCOLOR-1000x1000.gif`
+                        const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${hurricane.id.toUpperCase()}/13/${hurricane.id.toUpperCase()}-13-1000x1000.gif`
+                        const hurricaneImage = document.createElement('img');
+
+                        const coneButton = document.createElement('button');
+                        coneButton.className = "cone-button";
+                        coneButton.innerHTML = "Cone Tracks";
+
+                        const satelliteButton = document.createElement('button');
+                        satelliteButton.className = "satellite-button";
+                        satelliteButton.innerHTML = "Sattelite";
+
+                        const IrSatButton = document.createElement('button');
+                        IrSatButton.className = "ir-button";
+                        IrSatButton.innerHTML = "Infrared Sattelite";
+
+                        coneButton.onclick = changeToCone;
+                        satelliteButton.onclick = changeToSatellite;
+                        IrSatButton.onclick = changeToIR;
+
+                        hurricaneImage.className = "hurricane-image";
+                        hurricaneImage.src = coneGraphicUrl;
+
+                        imgButtonDiv.appendChild(coneButton);
+                        imgButtonDiv.appendChild(satelliteButton);
+                        imgButtonDiv.appendChild(IrSatButton);
+                        hurricaneListItem.appendChild(hurricaneImage);
+                        
+                        function changeToSatellite() {
+                            hurricaneImage.src = satelliteUrl;
+
+                        }
+
+                        function changeToIR() {
+                            hurricaneImage.src = IrSatUrl;
+                        }
+
+                        function changeToCone() {
+                            hurricaneImage.src = coneGraphicUrl;
+                        }
                     })
                     .catch(error => {
                         console.error('Error fetching RSS feed:', error);
@@ -190,8 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         headlineDiv.innerHTML = `${headline}`;
                         depListItem.appendChild(headlineDiv);
 
-                        const coneBinNumber = depression.binNumber.length === 3 ? depression.binNumber.slice(0, 2) + '0' + depression.binNumber.slice(2) : depression.binNumber;
-                        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${coneBinNumber}/${depression.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
+                        const fourDigitBinNumber = depression.binNumber.length === 3 ? depression.binNumber.slice(0, 2) + '0' + depression.binNumber.slice(2) : depression.binNumber;
+                        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitBinNumber}/${depression.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
                         const coneGraphic = document.createElement('img');
                         coneGraphic.className = "cone-graphic";
                         coneGraphic.src = coneGraphicUrl;
