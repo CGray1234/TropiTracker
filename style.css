@@ -84,7 +84,7 @@ button#hurricane-label:hover {
     margin-bottom: 5px;
 }
 
-.cone-button {
+.img-button {
     width: 30%;
     font-size: 30px;
     margin-left: 10px;
@@ -94,7 +94,7 @@ button#hurricane-label:hover {
     color: white;
 }
 
-.cone-button:hover {
+.img-button:hover {
     width: 30%;
     font-size: 30px;
     margin-left: 10px;
@@ -104,44 +104,10 @@ button#hurricane-label:hover {
     color: white;
 }
 
-.satellite-button {
-    width: 30%;
-    font-size: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border: none;
-    background-color: gray;
-    color: white;
-}
-
-.satellite-button:hover {
-    width: 30%;
-    font-size: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border: none;
-    background-color: rgb(70, 70, 70);
-    color: white;
-}
-
-.ir-button {
-    width: 30%;
-    font-size: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border: none;
-    background-color: gray;
-    color: white;
-}
-
-.ir-button:hover {
-    width: 30%;
-    font-size: 30px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border: none;
-    background-color: rgb(70, 70, 70);
-    color: white;
+.hurricane-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*  Tropical Storms  */
@@ -234,7 +200,7 @@ button#depression-label:hover {
     text-align: center;
 }
 
-.hurricane-image {
+.dep-image {
     display: block;
     margin-left: auto;
     margin-right: auto;

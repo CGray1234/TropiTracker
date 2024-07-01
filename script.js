@@ -155,15 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         const hurricaneImage = document.createElement('img');
 
                         const coneButton = document.createElement('button');
-                        coneButton.className = "cone-button";
+                        coneButton.className = "img-button";
                         coneButton.innerHTML = "Cone Tracks";
 
                         const satelliteButton = document.createElement('button');
-                        satelliteButton.className = "satellite-button";
+                        satelliteButton.className = "img-button";
                         satelliteButton.innerHTML = "Sattelite";
 
                         const IrSatButton = document.createElement('button');
-                        IrSatButton.className = "ir-button";
+                        IrSatButton.className = "img-button";
                         IrSatButton.innerHTML = "Infrared Sattelite";
 
                         coneButton.onclick = changeToCone;
@@ -180,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         function changeToSatellite() {
                             hurricaneImage.src = satelliteUrl;
-
                         }
 
                         function changeToIR() {
@@ -232,10 +231,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         const fourDigitBinNumber = depression.binNumber.length === 3 ? depression.binNumber.slice(0, 2) + '0' + depression.binNumber.slice(2) : depression.binNumber;
                         const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitBinNumber}/${depression.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
-                        const coneGraphic = document.createElement('img');
-                        coneGraphic.className = "cone-graphic";
-                        coneGraphic.src = coneGraphicUrl;
-                        depListItem.appendChild(coneGraphic);
+                        const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${depression.id.toUpperCase()}/GEOCOLOR/${depression.id.toUpperCase()}-GEOCOLOR-1000x1000.gif`
+                        const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${depression.id.toUpperCase()}/13/${depression.id.toUpperCase()}-13-1000x1000.gif`
+                        const depImage = document.createElement('img');
+                        depImage.className = "cone-graphic";
+                        depImage.src = coneGraphicUrl;
+                        depListItem.appendChild(depImage);
+
+                        const imgButtonDiv = document.createElement('div');
+                        imgButtonDiv.className = "img-button-div";
+                        depListItem.appendChild(imgButtonDiv);
+
+                        const coneButton = document.createElement('button');
+                        coneButton.className = "img-button";
+                        coneButton.innerHTML = "Cone Tracks";
+
+                        const satelliteButton = document.createElement('button');
+                        satelliteButton.className = "img-button";
+                        satelliteButton.innerHTML = "Sattelite";
+
+                        const IrSatButton = document.createElement('button');
+                        IrSatButton.className = "img-button";
+                        IrSatButton.innerHTML = "Infrared Sattelite";
+
+                        coneButton.onclick = changeToCone;
+                        satelliteButton.onclick = changeToSatellite;
+                        IrSatButton.onclick = changeToIR;
+
+                        depImage.className = "dep-image";
+                        depImage.src = coneGraphicUrl;
+
+                        imgButtonDiv.appendChild(coneButton);
+                        imgButtonDiv.appendChild(satelliteButton);
+                        imgButtonDiv.appendChild(IrSatButton);
+                        depListItem.appendChild(depImage);
+                        
+                        function changeToSatellite() {
+                            depImage.src = satelliteUrl;
+                        }
+
+                        function changeToIR() {
+                            depImage.src = IrSatUrl;
+                        }
+
+                        function changeToCone() {
+                            depImage.src = coneGraphicUrl;
+                        }
                     })
                     .catch(error => {
                         console.error('Error fetching RSS feed:', error);
