@@ -1,4 +1,4 @@
-# Hurricane Tracker
+# TropiCane
 Track hurricanes, tropical storms, and tropical depressions all in one place!
 
 All code is open-source for those looking to accomplish something similar to what this website does.
