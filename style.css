@@ -7,6 +7,34 @@
     font-family: "Bebas Neue"
 }
 
+body {
+    padding-top: 40px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+button#navButton {
+    margin-top: 3.5px;
+    font-size: 30px;
+    background-color: black;
+    border: none;
+    color: white;
+}
+
+button#navButton:hover {
+    margin-top: 3.5px;
+    font-size: 30px;
+    background-color: rgb(37, 37, 37);
+    border: none;
+    color: white;
+}
+
 div#navbar {
     width: 100%;
     background-color: rgb(0, 0, 0);
@@ -201,6 +229,57 @@ button#depression-label:hover {
 }
 
 .dep-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Tropical Remnants */
+
+button#remnants-label {
+    margin-top: 20px;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    background-color: gray;
+    border: none;
+    width: 100%;
+}
+
+button#remnants-label:hover {
+    margin-top: 20px;
+    font-size: 50px;
+    text-align: center;
+    color: white;
+    background-color: rgb(70, 70, 70);
+    border: none;
+    width: 100%;
+}
+
+.remnant-list-item {
+    font-size: 50px;
+    background-color: darkred;
+    color: white;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.remnant-headline {
+    background-color: rgb(75, 75, 75);
+    font-size: 40px;
+    text-align: center;
+}
+
+.remnant-update {
+    background-color: black;
+    font-size: 20px;
+    text-align: center;
+}
+
+.remnant-image {
     display: block;
     margin-left: auto;
     margin-right: auto;
