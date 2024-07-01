@@ -155,6 +155,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${storm.id.toUpperCase()}/GEOCOLOR/${storm.id.toUpperCase()}-GEOCOLOR-1000x1000.gif`
                 const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${storm.id.toUpperCase()}/13/${storm.id.toUpperCase()}-13-1000x1000.gif`
 
+                const imgButtonDiv = document.createElement('div');
+                imgButtonDiv.className = "img-button-div";
+                stormListItem.appendChild(imgButtonDiv);
+
+                const coneButton = createImgButton('Cone Tracks', () => changeImageDisplay(coneImage, satImage, irImage));
+                const satelliteButton = createImgButton('Satellite', () => changeImageDisplay(satImage, coneImage, irImage));
+                const IrSatButton = createImgButton('Infrared Satellite', () => changeImageDisplay(irImage, coneImage, satImage));
+
+                imgButtonDiv.appendChild(coneButton);
+                imgButtonDiv.appendChild(satelliteButton);
+                imgButtonDiv.appendChild(IrSatButton);
+
                 const coneImage = document.createElement('img');
                 coneImage.className = `${type}-image`;
                 coneImage.src = coneGraphicUrl;
@@ -172,18 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 irImage.src = IrSatUrl;
                 irImage.style.display = "none";
                 stormListItem.appendChild(irImage);
-
-                const imgButtonDiv = document.createElement('div');
-                imgButtonDiv.className = "img-button-div";
-                stormListItem.appendChild(imgButtonDiv);
-
-                const coneButton = createImgButton('Cone Tracks', () => changeImageDisplay(coneImage, satImage, irImage));
-                const satelliteButton = createImgButton('Satellite', () => changeImageDisplay(satImage, coneImage, irImage));
-                const IrSatButton = createImgButton('Infrared Satellite', () => changeImageDisplay(irImage, coneImage, satImage));
-
-                imgButtonDiv.appendChild(coneButton);
-                imgButtonDiv.appendChild(satelliteButton);
-                imgButtonDiv.appendChild(IrSatButton);
             })
             .catch(error => {
                 console.error('Error:', error);
