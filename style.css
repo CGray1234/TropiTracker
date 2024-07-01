@@ -23,24 +23,6 @@ div#navbar {
     left: 0;
 }
 
-div#cyclocane {
-    width: 100%;
-    background-color: rgb(0, 0, 0);
-    color: white;
-    font-size: 20px;
-    margin-bottom: 10px;
-    position: fixed;
-    margin-left: 0px;
-    bottom: 0;
-    left: 0;
-    text-align: center;
-    margin-bottom: 0;
-}
-
-a#cyclocaneLink {
-    color: rgb(32, 156, 238);
-}
-
 div#active-header {
     /* margin-top: 50px; */
     text-align: center;
