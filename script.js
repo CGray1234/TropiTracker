@@ -233,10 +233,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitBinNumber}/${depression.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
                         const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${depression.id.toUpperCase()}/GEOCOLOR/${depression.id.toUpperCase()}-GEOCOLOR-1000x1000.gif`
                         const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${depression.id.toUpperCase()}/13/${depression.id.toUpperCase()}-13-1000x1000.gif`
-                        const depImage = document.createElement('img');
-                        depImage.className = "cone-graphic";
-                        depImage.src = coneGraphicUrl;
-                        depListItem.appendChild(depImage);
+
+                        const coneImage = document.createElement('img');
+                        coneImage.className = "dep-image";
+                        coneImage.src = coneGraphicUrl;
+                        depListItem.appendChild(coneImage);
+                        coneImage.style.display = "block";
+
+                        const satImage = document.createElement('img');
+                        satImage.className = "dep-image";
+                        satImage.src = satelliteUrl;
+                        depListItem.appendChild(satImage);
+                        satImage.style.display = "none";
+
+                        const irImage = document.createElement('img');
+                        irImage.className = "dep-image";
+                        irImage.src = IrSatUrl;
+                        depListItem.appendChild(satImage);
+                        irImage.style.display = "none";
 
                         const imgButtonDiv = document.createElement('div');
                         imgButtonDiv.className = "img-button-div";
@@ -258,24 +272,30 @@ document.addEventListener('DOMContentLoaded', () => {
                         satelliteButton.onclick = changeToSatellite;
                         IrSatButton.onclick = changeToIR;
 
-                        depImage.className = "dep-image";
-                        depImage.src = coneGraphicUrl;
-
                         imgButtonDiv.appendChild(coneButton);
                         imgButtonDiv.appendChild(satelliteButton);
                         imgButtonDiv.appendChild(IrSatButton);
-                        depListItem.appendChild(depImage);
+
+                        depListItem.appendChild(satImage);
+                        depListItem.appendChild(irImage);
+                        depListItem.appendChild(coneImage);
                         
                         function changeToSatellite() {
-                            depImage.src = satelliteUrl;
+                            satImage.style.display = "block";
+                            irImage.style.display = "none";
+                            coneImage.style.display = "none";
                         }
 
                         function changeToIR() {
-                            depImage.src = IrSatUrl;
+                            satImage.style.display = "none";
+                            irImage.style.display = "block";
+                            coneImage.style.display = "none";
                         }
 
                         function changeToCone() {
-                            depImage.src = coneGraphicUrl;
+                            satImage.style.display = "none";
+                            irImage.style.display = "none";
+                            coneImage.style.display = "block";
                         }
                     })
                     .catch(error => {
