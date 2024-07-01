@@ -9,7 +9,7 @@ The api uses a slightly different link every time to ensure the website stays up
 
 Next, the amount of storms are separated into hurricanes, tropical storms, and tropical depressions. This is then displayed on the top of the page.
 
-Finally, each storm's id and binNumber is used to find cone maps and the RSS links unique to each storm. The nhc:headline and nhc:datetime (update) parameters are taken and displayed under each storm header.
+Finally, each storm's id and binNumber is used to find cone maps, satellite images, and the RSS links unique to each storm. The nhc:headline and nhc:datetime (update) parameters are taken and displayed under each storm header.
 
 And that's basically it. There are some more things that happen in the background that are for aesthetics and easier use, and that can be found in the [script.js file](https://github.com/CGray1234/Hurricane-Tracker/blob/main/script.js).
 
