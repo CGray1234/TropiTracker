@@ -14,11 +14,31 @@
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <body>
-        <!-- <div id="navbar" style="font-family: Arial, Helvetica, sans-serif;">
-            <button id="navButton" class="material-symbols-outlined">
+        <div id="fullscreenNavbar">
+            <button id="closeNavButton" class="material-symbols-outlined" onclick="closeNav()">
+                close
+            </button>
+
+            <div id="fullscreenNav">
+                <a id="fullscreenNavButton" href="https://tropicane.net">Home</a>
+                <a id="fullscreenNavButton" href="https://hurricanes.tropicane.net">Hurricanes</a>
+                <a id="fullscreenNavButton" href="https://storms.tropicane.net">Tropical Storms</a>
+                <a id="fullscreenNavButton" href="https://depressions.tropicane.net">Tropical Depressions</a>
+                <a id="fullscreenNavButton" href="https://remnants.tropicane.net">Tropical Remnants</a>
+            </div>
+        </div>
+
+        <div id="navbar" style="font-family: Arial, Helvetica, sans-serif;">
+            <button id="mainNavButton" class="material-symbols-outlined" onclick="openNav()">
                 menu
             </button>
-        </div> -->
+
+            <a id="navButton" href="https://tropicane.net">Home</a>
+            <a id="navButton" href="https://hurricanes.tropicane.net">Hurricanes</a>
+            <a id="navButton" href="https://storms.tropicane.net">Tropical Storms</a>
+            <a id="navButton" href="https://depressions.tropicane.net">Tropical Depressions</a>
+            <a id="navButton" href="https://remnants.tropicane.net">Tropical Remnants</a>
+        </div>
 
         <div id="active-header">Tropi•Cane</div>
         <div id="storm-count">Finding active storms...</div>

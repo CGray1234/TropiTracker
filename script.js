@@ -249,3 +249,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
 });
+
+function openNav() {
+    const nav = document.getElementById('fullscreenNavbar');
+    nav.style.display = 'block';
+}
+
+function closeNav() {
+    const nav = document.getElementById('fullscreenNavbar');
+    nav.style.display = 'none';
+}
