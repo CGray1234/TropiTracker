@@ -205,6 +205,11 @@ button#navButton:hover {
     text-decoration: none;
 }
 
+.underline {
+    color: white;
+    text-decoration: underline;
+}
+
 div#active-header {
     /* margin-top: 50px; */
     text-align: center;
