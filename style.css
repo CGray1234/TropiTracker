@@ -65,6 +65,7 @@ a#fullscreenNavButton {
     margin-top: 50px;
     margin-bottom: 50px;
     text-decoration: none;
+    white-space: nowrap;
 }
 
 a#fullscreenNavButton:hover {
@@ -97,7 +98,7 @@ div#navbar {
     z-index: 1;
     align-content: center;
     overflow: hidden;
-    max-height: 35px;
+    max-height: 30px;
 }
 
 button#closeNavButton {
@@ -161,7 +162,7 @@ button#mainNavButton:hover {
     margin-right: 10px;
 }
 
-a#navButton {
+button#navButton {
     padding-top: 10px;
     background-color: black;
     outline: 5px;
@@ -180,7 +181,7 @@ a#navButton {
     text-decoration: none;
 }
 
-a#navButton:hover {
+button#navButton:hover {
     padding-top: 10px;
     background-color: rgb(50, 50, 50);
     outline: 5px;
@@ -190,12 +191,17 @@ a#navButton:hover {
     height: 30px;
     border-radius: 2px;
     padding: 0px;
-    padding-top: 2px;
     margin-bottom: 5px;
+    font-size: 25px;
     margin-left: 10px;
     margin-right: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    text-decoration: none;
+}
+
+.no-underline {
+    color: white;
     text-decoration: none;
 }
 
