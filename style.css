@@ -73,24 +73,38 @@ div#storm-count {
     color: white;
 }
 
+@keyframes rotate {
+    from {
+        transform: rotate(359deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+img#hurricane-icon {
+    animation: rotate 10s infinite linear;
+    width: 35px;
+}
+
 button#hurricane-label {
     margin-top: 20px;
     font-size: 50px;
-    text-align: center;
     color: white;
     background-color: gray;
     border: none;
     width: 100%;
+    text-align: left;
 }
 
 button#hurricane-label:hover {
     margin-top: 20px;
     font-size: 50px;
-    text-align: center;
     color: white;
     background-color: rgb(70, 70, 70);
     border: none;
     width: 100%;
+    text-align: left;
 }
 
 .hurricane-list-item {

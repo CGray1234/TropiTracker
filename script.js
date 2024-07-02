@@ -26,12 +26,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const remnantsButton = document.getElementById('remnants-label');
     remnantsButton.onclick = toggleRemnants;
 
+    const hurricaneDropdown = document.getElementById('hurricane-dropdown');
+    const stormDropdown = document.getElementById('storm-dropdown');
+    const depDropdown = document.getElementById('dep-dropdown');
+    const remnantDropdown = document.getElementById('remnant-dropdown');
     function toggleHurricanes() {
         if (hideHurricanes) {
             hurricaneList.style.display = "block";
+            hurricaneDropdown.innerHTML = "arrow_drop_down";
             hideHurricanes = false;
         } else {
             hurricaneList.style.display = "none";
+            hurricaneDropdown.innerHTML = "arrow_right";
             hideHurricanes = true;
         }
     }
@@ -39,9 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleStorms() {
         if (hideTS) {
             stormList.style.display = "block";
+            stormDropdown.innerHTML = "arrow_drop_down";
             hideTS = false;
         } else {
             stormList.style.display = "none";
+            stormDropdown.innerHTML = "arrow_right";
             hideTS = true;
         }
     }
@@ -49,9 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleDeps() {
         if (hideTD) {
             depList.style.display = "block";
+            depDropdown.innerHTML = "arrow_drop_down";
             hideTD = false;
         } else {
             depList.style.display = "none";
+            depDropdown.innerHTML = "arrow_right";
             hideTD = true;
         }
     }
@@ -59,9 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleRemnants() {
         if (hideRemnants) {
             remnantList.style.display = "block";
+            remnantDropdown.innerHTML = "arrow_drop_down";
             hideRemnants = false;
         } else {
             remnantList.style.display = "none";
+            remnantDropdown.innerHTML = "arrow_right";
             hideRemnants = true;
         }
     }
@@ -113,15 +125,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createStormListItem(storm, type) {
         const stormListItem = document.createElement('div');
-        const dropdownRight = document.createElement('span');
-        dropdownRight.className = "material-symbols-outlined";
-        dropdownRight.innerHTML = " arrow_right ";
-        stormListItem.appendChild(dropdownRight);
-
+    
         stormListItem.id = storm.binNumber;
         stormListItem.className = `${type}-list-item`;
-        stormListItem.innerHTML = `${capitalize(type)} ${storm.name}`;
-
+            
+        if (type === "hurricane") {
+            const hurricaneIcon = document.createElement('img');
+            hurricaneIcon.src = '/images/hurricane.png';
+            hurricaneIcon.id = 'hurricane-icon';
+            stormListItem.appendChild(hurricaneIcon);
+        }
+    
+        const stormText = document.createElement('span');
+        stormText.textContent = `${capitalize(type)} ${storm.name}`;
+        stormListItem.appendChild(stormText);
+    
         return stormListItem;
     }
 
@@ -135,7 +153,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 let category = "";
                 if (type === 'hurricane') {
                     category = getHurricaneCategory(winds);
-                    stormListItem.innerHTML = `Hurricane ${storm.name}: Category ${category}`;
+                    stormListItem.innerHTML = `
+                    <img src="/images/hurricane.png" id="hurricane-icon">
+                    Hurricane ${storm.name}: Category ${category}
+                    `;
+                }
+
+                if (type === 'storm') {
+                    stormListItem.innerHTML = `
+                    <img src="/images/tropical-storm.png" id="hurricane-icon">
+                    Tropical Storm ${storm.name}
+                    `;
                 }
 
                 const lastUpdate = data.getElementsByTagNameNS('*', "datetime")[0].textContent;
