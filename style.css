@@ -145,6 +145,7 @@ button#hurricane-label:hover {
     border: none;
     background-color: gray;
     color: white;
+    text-align: center;
 }
 
 .img-button:hover {
