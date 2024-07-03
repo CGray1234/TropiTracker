@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchStormData();
 
-    setInterval(fetchStormData, 60000);
+    // setInterval(fetchStormData, 60000);
 });
 
 function openNav() {
