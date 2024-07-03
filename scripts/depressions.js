@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    fetch(proxyUrl + apiUrl)
+    function fetchStormData() {
+        fetch(proxyUrl + apiUrl)
         .then(response => response.json())
         .then(data => {
             const activedepressions = data.activeStorms.filter(storm => storm.classification === 'TD');
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchStormDetails(depression, depressionListItem, 'depression');
             });
         });
+    }
 
     function createStormListItem(storm, type) {
         const stormListItem = document.createElement('div');
@@ -130,6 +132,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
+
+    fetchStormData();
+
+    setInterval(fetchStormData, 60000);
 });
 
 function openNav() {

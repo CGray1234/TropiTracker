@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function fetchStormData() {
     fetch(proxyUrl + apiUrl)
         .then(response => response.json())
         .then(data => {
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 fetchStormDetails(storm, stormListItem, 'storm');
             });
         });
+    }
 
     function createStormListItem(storm, type) {
         const stormListItem = document.createElement('div');
@@ -133,6 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function capitalize(str) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
+
+    fetchStormData();
+
+    setInterval(fetchStormData, 60000);
 });
 
 function openNav() {
