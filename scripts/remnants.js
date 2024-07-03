@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(proxyUrl + apiUrl)
         .then(response => response.json())
         .then(data => {
-            const activeremnants = data.activeStorms.filter(storm => storm.classification === 'HU');
+            const activeremnants = data.activeStorms.filter(storm => storm.classification === 'PTC');
             
             let remnantProperGrammar = activeremnants.length === 1 ? "remnant" : "remnants";
             
