@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (type === 'hurricane') {
                     category = getHurricaneCategory(winds);
                     stormListItem.innerHTML = `
-                    <img src="/images/hurricane.png" id="hurricane-icon">
+                    <img src="https://tropitracker.com/images/hurricane.png" id="hurricane-icon">
                     Hurricane ${storm.name}: Category ${category}
                     `;
                 }
