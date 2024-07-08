@@ -1,4 +1,4 @@
-# TropiTracker
+# <img src="images/logo.png" style="width: 30%;">
 Track hurricanes, tropical storms, and tropical depressions all in one place!
 
 All code is open-source for those looking to accomplish something similar to what this website does.
