@@ -421,9 +421,9 @@ button#depression-label:hover {
     max-width: 100%;
 }
 
-/* Tropical Remnants */
+/* Tropical Outlooks */
 
-button#remnants-label {
+button#outlooks-label {
     margin-top: 20px;
     font-size: 50px;
     text-align: left;
@@ -433,7 +433,7 @@ button#remnants-label {
     width: 100%;
 }
 
-button#remnants-label:hover {
+button#outlooks-label:hover {
     margin-top: 20px;
     font-size: 50px;
     text-align: left;
@@ -443,7 +443,7 @@ button#remnants-label:hover {
     width: 100%;
 }
 
-.remnant-list-item {
+.outlook-list-item {
     font-size: 50px;
     background-color: darkred;
     color: white;
@@ -454,19 +454,19 @@ button#remnants-label:hover {
     margin-bottom: 20px;
 }
 
-.remnant-headline {
+.outlook-headline {
     background-color: rgb(75, 75, 75);
     font-size: 40px;
     text-align: center;
 }
 
-.remnant-update {
+.outlook-update {
     background-color: black;
     font-size: 20px;
     text-align: center;
 }
 
-.remnant-image {
+.outlook-image {
     display: block;
     margin-left: auto;
     margin-right: auto;

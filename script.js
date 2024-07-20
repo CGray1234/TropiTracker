@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const hurricaneList = document.getElementById('hurricanes');
     const depList = document.getElementById('depressions');
     const stormList = document.getElementById('storms');
-    const remnantList = document.getElementById('remnants');
 
     const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
     const proxyUrl = 'https://corsproxy.io/?';
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let hideHurricanes = true;
     let hideTS = true;
     let hideTD = true;
-    let hideRemnants = true;
 
     const hurricaneButton = document.getElementById('hurricane-label');
     hurricaneButton.onclick = toggleHurricanes;
@@ -23,13 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const depButton = document.getElementById('depression-label');
     depButton.onclick = toggleDeps;
 
-    const remnantsButton = document.getElementById('remnants-label');
-    remnantsButton.onclick = toggleRemnants;
-
     const hurricaneDropdown = document.getElementById('hurricane-dropdown');
     const stormDropdown = document.getElementById('storm-dropdown');
     const depDropdown = document.getElementById('dep-dropdown');
-    const remnantDropdown = document.getElementById('remnant-dropdown');
     function toggleHurricanes() {
         if (hideHurricanes) {
             hurricaneList.style.display = "block";
@@ -66,18 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function toggleRemnants() {
-        if (hideRemnants) {
-            remnantList.style.display = "block";
-            remnantDropdown.innerHTML = "arrow_drop_down";
-            hideRemnants = false;
-        } else {
-            remnantList.style.display = "none";
-            remnantDropdown.innerHTML = "arrow_right";
-            hideRemnants = true;
-        }
-    }
-
     function fetchStormData() {
         fetch(proxyUrl + apiUrl)
         .then(response => response.json())
@@ -85,19 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const activeHurricanes = data.activeStorms.filter(storm => storm.classification === 'HU');
             const activeTropicalStorms = data.activeStorms.filter(storm => storm.classification === 'TS');
             const activeTropicalDeps = data.activeStorms.filter(storm => storm.classification === 'TD');
-            const activeRemnants = data.activeStorms.filter(storm => storm.classification === "PTC");
 
             let hurricaneProperGrammar = activeHurricanes.length === 1 ? "Hurricane" : "Hurricanes";
             let stormProperGrammar = activeTropicalStorms.length === 1 ? "Tropical Storm" : "Tropical Storms";
             let depProperGrammar = activeTropicalDeps.length === 1 ? "Tropical Depression" : "Tropical Depressions";
-            let remnantProperGrammar = activeRemnants.length === 1 ? "Tropical Remnant" : "Tropical Remnants";
 
-            stormCount.textContent = `Found ${activeHurricanes.length} ${hurricaneProperGrammar}, ${activeTropicalStorms.length} ${stormProperGrammar}, ${activeTropicalDeps.length} ${depProperGrammar}, and ${activeRemnants.length} ${remnantProperGrammar}.`;
+            stormCount.textContent = `Found ${activeHurricanes.length} ${hurricaneProperGrammar}, ${activeTropicalStorms.length} ${stormProperGrammar}, and ${activeTropicalDeps.length} ${depProperGrammar}.`;
 
             hurricaneButton.style.display = activeHurricanes.length === 0 ? "none" : "block";
             stormButton.style.display = activeTropicalStorms.length === 0 ? "none" : "block";
             depButton.style.display = activeTropicalDeps.length === 0 ? "none" : "block";
-            remnantsButton.style.display = activeRemnants.length === 0 ? "none" : "block";
 
             activeHurricanes.forEach(hurricane => {
                 const hurricaneListItem = createStormListItem(hurricane, 'hurricane');
@@ -115,12 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const stormListItem = createStormListItem(storm, 'storm');
                 stormList.appendChild(stormListItem);
                 fetchStormDetails(storm, stormListItem, 'storm');
-            });
-
-            activeRemnants.forEach(remnant => {
-                const remnantListItem = createStormListItem(remnant, 'remnant');
-                remnantList.appendChild(remnantListItem);
-                fetchStormDetails(remnant, remnantListItem, 'remnant');
             });
         });
     }
