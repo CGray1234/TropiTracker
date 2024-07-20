@@ -16,3 +16,13 @@ function changeImageDisplay(showImage, ...hideImages) {
     showImage.style.display = "block";
     hideImages.forEach(image => image.style.display = "none");
 }
+
+function openNav() {
+    const nav = document.getElementById('fullscreenNavbar');
+    nav.style.display = 'block';
+}
+
+function closeNav() {
+    const nav = document.getElementById('fullscreenNavbar');
+    nav.style.display = 'none';
+}
