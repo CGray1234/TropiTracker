@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
             .then(data => {
                 stormListItem.innerHTML = `
-                <img src="https://tropitracker.com/images/tropical-storm.png" id="storm-icon">
+                <img src="https://tropitracker.com/images/tropical-storm.png" id="hurricane-icon">
                 Tropical Storm ${storm.name}`;
 
                 const lastUpdate = data.getElementsByTagNameNS('*', "datetime")[0].textContent;
