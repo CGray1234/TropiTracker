@@ -308,6 +308,7 @@ button#hurricane-label:hover {
     border: none;
     background-color: rgb(70, 70, 70);
     color: white;
+    text-align: center;
 }
 
 .hurricane-image {
@@ -421,12 +422,12 @@ button#depression-label:hover {
     max-width: 100%;
 }
 
-/* Tropical Outlooks */
+/* Outlooks */
 
 button#outlooks-label {
     margin-top: 20px;
     font-size: 50px;
-    text-align: left;
+    text-align: center;
     color: white;
     background-color: gray;
     border: none;
@@ -436,7 +437,7 @@ button#outlooks-label {
 button#outlooks-label:hover {
     margin-top: 20px;
     font-size: 50px;
-    text-align: left;
+    text-align: center;
     color: white;
     background-color: rgb(70, 70, 70);
     border: none;
@@ -448,10 +449,9 @@ button#outlooks-label:hover {
     background-color: darkred;
     color: white;
     padding-left: 10px;
-    padding-bottom: 10px;
+    padding-bottom: 1px;
     padding-right: 10px;
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .outlook-headline {
@@ -471,4 +471,17 @@ button#outlooks-label:hover {
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
+}
+
+.outlook-discussions {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    background-color: white;
+    font-family: monospace;
+    color: black;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 50%;
+    font-size: 20px;
 }
