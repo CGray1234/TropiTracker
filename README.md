@@ -1,7 +1,9 @@
 # <img src="/images/logo.png" style="width: 50%;">
+[![Better Stack Badge](https://uptime.betterstack.com/status-badges/v2/monitor/1ff6e.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
+
 Track hurricanes, tropical storms, and tropical depressions all in one place!
 
-All code is open-source for those looking to accomplish something similar to what this website does.
+All code is open-source for anyone looking to accomplish something similar to what this website does.
 
 # How it works:
 First, the [NHC Current Storms API link](https://www.nhc.noaa.gov/CurrentStorms.json) is passed thru a proxy to avoid CORS issues and ensures that all content is loaded correctly.
