@@ -1,5 +1,5 @@
 # <img src="/images/logo.png" style="width: 50%;">
-Track hurricanes, tropical storms, and tropical depressions all in one place!
+Track the tropics!
 
 All code is open-source for those looking to accomplish something similar to what this website does.
 
