@@ -1,11 +1,7 @@
 # <img src="/images/logo.png" style="width: 50%;">
-<<<<<<< HEAD
-Track the tropics!
-=======
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v2/monitor/1ff6e.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
 
-Track hurricanes, tropical storms, and tropical depressions all in one place!
->>>>>>> 53712482d18c249ebb5c61545ec89d1b11095c3b
+Track the tropics!
 
 All code is open-source for anyone looking to accomplish something similar to what this website does.
 
