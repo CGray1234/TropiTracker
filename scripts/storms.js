@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fetchStormData() {
-    hurricaneList.innerHTML = '';
+    stormList.innerHTML = '';
     fetch(proxyUrl + apiUrl)
         .then(response => response.json())
         .then(data => {
