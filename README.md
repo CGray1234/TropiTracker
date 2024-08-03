@@ -1,7 +1,7 @@
 # <img src="/images/logo.png" style="width: 50%;">
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v2/monitor/1ff6e.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
 
-TropiTracker is an all-in-one, open-source website that provides you with details on active and upcoming tropical cyclones, with instant updates as they happen. Get prepared and stay ahead of the storm with TropiTracker.
+TropiTracker is an all-in-one, open-source website that provides you with details on active and upcoming tropical cyclones, with updates every minute. Get prepared and stay ahead of the storm with TropiTracker.
 
 All code is open-source for anyone looking to accomplish something similar to what this website does.
 
