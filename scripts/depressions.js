@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const depressionList = document.getElementById('depressions');
 
+    depressionList.innerHTML = '';
+
     const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
     const proxyUrl = 'https://corsproxy.io/?';
 
