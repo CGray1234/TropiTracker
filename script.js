@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let hideTS = true;
     let hideTD = true;
 
-    let currentImageType = 'cone'; // Track the current image type
+    let currentImageType = 'cone';
 
     const hurricaneButton = document.getElementById('hurricane-label');
     hurricaneButton.onclick = toggleHurricanes;
@@ -139,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             listElement.appendChild(stormListItem);
 
-            // Restore the last selected image
             const imageToShow = stormListItem.querySelector(`#${currentImageType}Image`);
             if (imageToShow) {
                 changeImageDisplay(imageToShow, ...stormListItem.querySelectorAll('.storm-image:not(#' + currentImageType + 'Image)'));

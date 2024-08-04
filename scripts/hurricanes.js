@@ -2,18 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const stormCount = document.getElementById('storm-count');
 
     const hurricaneList = document.getElementById('hurricanes');
+    const depList = document.getElementById('depressions');
+    const stormList = document.getElementById('storms');
 
-    
-
-    const apiUrl = `https://www.nhc.noaa.gov/CurrentStorms.json?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
     const proxyUrl = 'https://corsproxy.io/?';
 
     let hideHurricanes = true;
+
+    let currentImageType = 'cone';
 
     const hurricaneButton = document.getElementById('hurricane-label');
     hurricaneButton.onclick = toggleHurricanes;
 
     const hurricaneDropdown = document.getElementById('hurricane-dropdown');
+
     function toggleHurricanes() {
         if (hideHurricanes) {
             hurricaneList.style.display = "block";
@@ -27,119 +29,172 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function fetchStormData() {
-    hurricaneList.innerHTML = '';
-    fetch(proxyUrl + apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            const activeHurricanes = data.activeStorms.filter(storm => storm.classification === 'HU');
-            
-            let hurricaneProperGrammar = activeHurricanes.length === 1 ? "Hurricane" : "Hurricanes";
-            
-            stormCount.textContent = `Found ${activeHurricanes.length} ${hurricaneProperGrammar}.`;
+        const currentStormData = {
+            hurricanes: [],
+            storms: [],
+            depressions: []
+        };
 
-            hurricaneButton.style.display = activeHurricanes.length === 0 ? "none" : "block";
-            
-            activeHurricanes.forEach(hurricane => {
-                const hurricaneListItem = createStormListItem(hurricane, 'hurricane');
-                hurricaneList.appendChild(hurricaneListItem);
-                fetchStormDetails(hurricane, hurricaneListItem, 'hurricane');
-            });
-        });
-    }
+        const xmlUrls = [
+            `https://www.nhc.noaa.gov/index-at.xml?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`,
+            `https://www.nhc.noaa.gov/index-ep.xml?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`,
+            `https://www.nhc.noaa.gov/index-cp.xml?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`
+        ];
 
-    function createStormListItem(storm, type) {
-        const stormListItem = document.createElement('div');
-    
-        stormListItem.id = storm.binNumber;
-        stormListItem.className = `${type}-list-item`;
-            
-        if (type === "hurricane") {
-            const hurricaneIcon = document.createElement('img');
-            hurricaneIcon.src = '/images/hurricane.png';
-            hurricaneIcon.id = 'hurricane-icon';
-            stormListItem.appendChild(hurricaneIcon);
-        }
-    
-        const stormText = document.createElement('span');
-        stormText.textContent = `${capitalize(type)} ${storm.name}`;
-        stormListItem.appendChild(stormText);
-    
-        return stormListItem;
-    }
+        Promise.all(xmlUrls.map(url => fetch(proxyUrl + url).then(response => response.text())))
+            .then(responses => {
+                responses.forEach(str => {
+                    const data = (new window.DOMParser()).parseFromString(str, "text/xml");
+                    const storms = data.getElementsByTagNameNS('*', 'Cyclone');
 
-    function fetchStormDetails(storm, stormListItem, type) {
-        const rssUrl = `https://www.nhc.noaa.gov/nhc_${storm.binNumber.toLowerCase()}.xml?timestamp=${new Date().getTime()}&date=${new Date().getDate()}`;
-        fetch(proxyUrl + rssUrl)
-            .then(response => response.text())
-            .then(str => (new window.DOMParser()).parseFromString(str, "text/xml"))
-            .then(data => {
-                const winds = data.getElementsByTagNameNS('*', 'wind')[0].textContent.replace(/\D/g, '');
-                let category = "";
-                if (type === 'hurricane') {
-                    category = getHurricaneCategory(winds);
-                    stormListItem.innerHTML = `
-                    <img src="https://tropitracker.com/images/hurricane.png" id="hurricane-icon">
-                    Hurricane ${storm.name}: Category ${category}
-                    `;
-                }
+                    Array.from(storms).forEach(storm => {
+                        const name = storm.getElementsByTagNameNS('*', 'name')[0].textContent;
+                        const type = storm.getElementsByTagNameNS('*', 'type')[0].textContent.toLowerCase();
+                        const wallet = storm.getElementsByTagNameNS('*', 'wallet')[0].textContent;
+                        const atcf = storm.getElementsByTagNameNS('*', 'atcf')[0].textContent;
+                        const datetime = storm.getElementsByTagNameNS('*', "datetime")[0].textContent;
+                        const movement = storm.getElementsByTagNameNS('*', "movement")[0].textContent;
+                        const pressure = storm.getElementsByTagNameNS('*', "pressure")[0].textContent;
+                        const wind = storm.getElementsByTagNameNS('*', "wind")[0].textContent;
+                        const headline = storm.getElementsByTagNameNS('*', "headline")[0].textContent;
 
-                if (type === 'storm') {
-                    stormListItem.innerHTML = `
-                    <img src="/images/tropical-storm.png" id="hurricane-icon">
-                    Tropical Storm ${storm.name}
-                    `;
-                }
+                        const stormData = { type, name, wallet, atcf, datetime, movement, pressure, wind, headline };
+                        if (type === "hurricane") {
+                            currentStormData.hurricanes.push(stormData);
+                        } else if (type.includes("storm")) {
+                            currentStormData.storms.push(stormData);
+                        } else if (type.includes("depression")) {
+                            currentStormData.depressions.push(stormData);
+                        }
+                    });
+                });
 
-                const lastUpdate = data.getElementsByTagNameNS('*', "datetime")[0].textContent;
-                const updateDiv = document.createElement('div');
-                updateDiv.className = `${type}-update`;
-                updateDiv.innerHTML = `Last updated: ${lastUpdate}`;
-                stormListItem.appendChild(updateDiv);
-
-                const headline = data.getElementsByTagNameNS('*', 'headline')[0].textContent;
-                const headlineDiv = document.createElement('div');
-                headlineDiv.className = `${type}-headline`;
-                headlineDiv.innerHTML = `${headline}`;
-                stormListItem.appendChild(headlineDiv);
-
-                const fourDigitBinNumber = storm.binNumber.length === 3 ? storm.binNumber.slice(0, 2) + '0' + storm.binNumber.slice(2) : storm.binNumber;
-                const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitBinNumber}/${storm.id.toUpperCase()}_5day_cone_with_line_and_wind.png`;
-                const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${storm.id.toUpperCase()}/GEOCOLOR/${storm.id.toUpperCase()}-GEOCOLOR-1000x1000.gif`
-                const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${storm.id.toUpperCase()}/13/${storm.id.toUpperCase()}-13-1000x1000.gif`
-
-                const imgButtonDiv = document.createElement('div');
-                imgButtonDiv.className = "img-button-div";
-                stormListItem.appendChild(imgButtonDiv);
-
-                const coneButton = createImgButton('Cone Tracks', () => changeImageDisplay(coneImage, satImage, irImage));
-                const satelliteButton = createImgButton('Satellite', () => changeImageDisplay(satImage, coneImage, irImage));
-                const IrSatButton = createImgButton('Infrared Satellite', () => changeImageDisplay(irImage, coneImage, satImage));
-
-                imgButtonDiv.appendChild(coneButton);
-                imgButtonDiv.appendChild(satelliteButton);
-                imgButtonDiv.appendChild(IrSatButton);
-
-                const coneImage = document.createElement('img');
-                coneImage.className = `${type}-image`;
-                coneImage.src = coneGraphicUrl;
-                coneImage.style.display = "block";
-                stormListItem.appendChild(coneImage);
-
-                const satImage = document.createElement('img');
-                satImage.className = `${type}-image`;
-                satImage.src = satelliteUrl;
-                satImage.style.display = "none";
-                stormListItem.appendChild(satImage);
-
-                const irImage = document.createElement('img');
-                irImage.className = `${type}-image`;
-                irImage.src = IrSatUrl;
-                irImage.style.display = "none";
-                stormListItem.appendChild(irImage);
+                updateStormLists(currentStormData);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
+    }
+
+    function updateStormLists(stormData) {
+        updateStormList(hurricaneList, stormData.hurricanes, "hurricane");
+
+        const activeHurricanes = hurricaneList.children.length;
+
+        let hurricaneProperGrammar = activeHurricanes === 1 ? "Hurricane" : "Hurricanes";
+        
+        stormCount.textContent = `Found ${activeHurricanes} ${hurricaneProperGrammar}.`;
+
+        hurricaneButton.style.display = activeHurricanes === 0 ? "none" : "block";
+    }
+
+    function updateStormList(listElement, storms, type) {
+        listElement.innerHTML = '';
+        storms.forEach(storm => {
+            const stormListItem = createStormListItem(
+                storm.type, storm.name, storm.wallet, storm.atcf, storm.datetime,
+                storm.movement, storm.pressure, storm.wind, storm.headline
+            );
+            listElement.appendChild(stormListItem);
+
+            const imageToShow = stormListItem.querySelector(`#${currentImageType}Image`);
+            if (imageToShow) {
+                changeImageDisplay(imageToShow, ...stormListItem.querySelectorAll('.storm-image:not(#' + currentImageType + 'Image)'));
+            }
+        });
+    }
+
+    function createStormListItem(type, name, wallet, atcf, datetime, movement, pressure, wind, headline) {
+        const stormListItem = document.createElement('div');
+
+        const stormText = document.createElement('span');
+        stormListItem.appendChild(stormText);
+
+        if (type === "hurricane") {
+            const hurricaneIcon = document.createElement('img');
+            hurricaneIcon.src = '/images/hurricane.png';
+            hurricaneIcon.id = 'hurricane-icon';
+            hurricaneIcon.style.marginRight = "5px";
+            stormListItem.className = "hurricane-list-item";
+            stormListItem.appendChild(hurricaneIcon);
+
+            let category = getHurricaneCategory(wind);
+
+            if (category >= 3) {
+                type = "Major Hurricane";
+            } else {
+                type = "Hurricane";
+            }
+
+            stormListItem.innerHTML += `${type} ${name}: Category ${category}`;
+        }
+
+        const update = document.createElement('div');
+        update.className = "hurricane-update";
+        update.textContent = `Last updated: ${datetime}`;
+        stormListItem.appendChild(update);
+
+        const headlineElement = document.createElement('div');
+        headlineElement.className = "hurricane-headline";
+        headlineElement.textContent = `${headline}`;
+        stormListItem.appendChild(headlineElement);
+
+        const details = document.createElement('div');
+        details.className = "hurricane-headline";
+        details.id = "details";
+        details.style.marginTop = "10px";
+        details.style.textDecoration = "underline";
+        details.innerHTML = `Winds: ${wind}<br>Pressure: ${pressure}<br>Movement: ${movement}`;
+        stormListItem.appendChild(details);
+
+        const fourDigitWallet = wallet.length === 3 ? wallet.slice(0, 2) + '0' + wallet.slice(2) : wallet;
+        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitWallet}/${atcf}_5day_cone_with_line_and_wind.png`;
+        const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${atcf}/GEOCOLOR/${atcf}-GEOCOLOR-1000x1000.gif`;
+        const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${atcf}/13/${atcf}-13-1000x1000.gif`;
+
+        const imgButtonDiv = document.createElement('div');
+        imgButtonDiv.className = 'img-button-div';
+        stormListItem.appendChild(imgButtonDiv);
+
+        const coneButton = createImgButton('Cone Tracks', () => {
+            currentImageType = 'cone';
+            changeImageDisplay(coneImage, satImage, irImage);
+        });
+        const satelliteButton = createImgButton('Satellite', () => {
+            currentImageType = 'sat';
+            changeImageDisplay(satImage, coneImage, irImage);
+        });
+        const IrSatButton = createImgButton('Infrared Satellite', () => {
+            currentImageType = 'ir';
+            changeImageDisplay(irImage, coneImage, satImage);
+        });
+
+        imgButtonDiv.appendChild(coneButton);
+        imgButtonDiv.appendChild(satelliteButton);
+        imgButtonDiv.appendChild(IrSatButton);
+
+        const coneImage = document.createElement('img');
+        coneImage.className = `storm-image`;
+        coneImage.src = coneGraphicUrl;
+        coneImage.id = "coneImage";
+        coneImage.style.display = "block";
+        stormListItem.appendChild(coneImage);
+
+        const satImage = document.createElement('img');
+        satImage.className = `storm-image`;
+        satImage.src = satelliteUrl;
+        satImage.id = "satImage";
+        satImage.style.display = "none";
+        stormListItem.appendChild(satImage);
+
+        const irImage = document.createElement('img');
+        irImage.className = `storm-image`;
+        irImage.src = IrSatUrl;
+        irImage.id = "irImage";
+        irImage.style.display = "none";
+        stormListItem.appendChild(irImage);
+
+        return stormListItem;
     }
 
     function createImgButton(label, onClick) {
@@ -169,12 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function capitalize(str) {
-        return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
     fetchStormData();
-
     setInterval(fetchStormData, 60000);
 });
 
