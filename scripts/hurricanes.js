@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         details.id = "details";
         details.style.marginTop = "10px";
         details.style.textDecoration = "underline";
-        details.innerHTML = `Winds: ${wind}<br>Pressure: ${pressure}<br>Movement: ${movement}`;
+        details.innerHTML = `Winds: ${wind} MPH<br>Pressure: ${pressure}<br>Movement: ${movement}`;
         stormListItem.appendChild(details);
 
         const fourDigitAtcf = atcf.slice(0, 4);
