@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     Array.from(storms).forEach(storm => {
                         const name = storm.getElementsByTagNameNS('*', 'name')[0].textContent;
                         const type = storm.getElementsByTagNameNS('*', 'type')[0].textContent.toLowerCase();
-                        const wallet = storm.getElementsByTagNameNS('*', 'wallet')[0].textContent;
                         const atcf = storm.getElementsByTagNameNS('*', 'atcf')[0].textContent;
                         const datetime = storm.getElementsByTagNameNS('*', "datetime")[0].textContent;
                         const movement = storm.getElementsByTagNameNS('*', "movement")[0].textContent;
@@ -58,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const wind = storm.getElementsByTagNameNS('*', "wind")[0].textContent;
                         const headline = storm.getElementsByTagNameNS('*', "headline")[0].textContent;
 
-                        const stormData = { type, name, wallet, atcf, datetime, movement, pressure, wind, headline };
+                        const stormData = { type, name, atcf, datetime, movement, pressure, wind, headline };
                         if (type === "hurricane") {
                             currentStormData.hurricanes.push(stormData);
                         } else if (type.includes("storm")) {
@@ -92,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
         listElement.innerHTML = '';
         storms.forEach(storm => {
             const stormListItem = createStormListItem(
-                storm.type, storm.name, storm.wallet, storm.atcf, storm.datetime,
-                storm.movement, storm.pressure, storm.wind, storm.headline
+                storm.type, storm.name, storm.atcf, storm.datetime,
+                storm.movement, storm.pressure, storm.wind.slice(0, storm.wind.lastIndexOf(' ')), storm.headline
             );
             listElement.appendChild(stormListItem);
 
@@ -104,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function createStormListItem(type, name, wallet, atcf, datetime, movement, pressure, wind, headline) {
+    function createStormListItem(type, name, atcf, datetime, movement, pressure, wind, headline) {
         const stormListItem = document.createElement('div');
 
         const stormText = document.createElement('span');
@@ -147,8 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
         details.innerHTML = `Winds: ${wind}<br>Pressure: ${pressure}<br>Movement: ${movement}`;
         stormListItem.appendChild(details);
 
-        const fourDigitWallet = wallet.length === 3 ? wallet.slice(0, 2) + '0' + wallet.slice(2) : wallet;
-        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitWallet}/${atcf}_5day_cone_with_line_and_wind.png`;
+        const fourDigitAtcf = atcf.slice(0, 4);
+        const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitAtcf}/${atcf}_5day_cone_with_line_and_wind.png`;
         const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${atcf}/GEOCOLOR/${atcf}-GEOCOLOR-1000x1000.gif`;
         const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${atcf}/13/${atcf}-13-1000x1000.gif`;
 
