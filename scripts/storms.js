@@ -137,7 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
         details.innerHTML = `Winds: ${wind} MPH<br>Pressure: ${pressure}<br>Movement: ${movement}`;
         stormListItem.appendChild(details);
 
-        const fourDigitAtcf = atcf.slice(0, 4);
+        let fourDigitAtcf;
+        if (atcf.includes("AL")) {
+            fourDigitAtcf = "AT" + atcf.slice(2, 4);
+        } else {
+            fourDigitAtcf = atcf.slice(0, 4);
+        }
         const coneGraphicUrl = `https://www.nhc.noaa.gov/storm_graphics/${fourDigitAtcf}/${atcf}_5day_cone_with_line_and_wind.png`;
         const satelliteUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${atcf}/GEOCOLOR/${atcf}-GEOCOLOR-1000x1000.gif`;
         const IrSatUrl = `https://cdn.star.nesdis.noaa.gov/FLOATER/data/${atcf}/13/${atcf}-13-1000x1000.gif`;
