@@ -79,8 +79,7 @@ a#fullscreenNavButton:hover {
     top: 50%;
     left: 50%;
     display: block;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     text-decoration-line: underline;
 }
 
